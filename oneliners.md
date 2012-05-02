@@ -8,6 +8,12 @@
 ### serve current directory tree at http://$HOSTNAME:8000/
 > python -m SimpleHTTPServer
 
+## Python smtp server
+> python -m smtpd -n -c DebuggingServer localhost:1025
+
+## 32 bits or 64 bits?
+> getconf LONG_BIT
+
 
 # Networking
 ## Lists all listening ports together with the PID of the associated process
@@ -54,4 +60,11 @@
 ## quickly backup or copy a file with bash.
 > cp filename{,.bak}
 
+## Display which distro is installed
+> cat /etc/issue
 
+## ダウンロードした tar.gz を展開
+> wget -qO - "http://www.tarball.com/tarball.gz" | tar zxvf -
+
+## save command output to image
+> ifconfig | convert label:@- ip.png
