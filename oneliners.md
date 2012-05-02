@@ -21,13 +21,15 @@
 ## git の設定
 ### ユーザ名とメールアドレスの設定
 > git config --global user.name "Kouki Ooyatsu"
+
 > git config --global user.email "hoge@hoge.com"
 
 ## git status, git diff のカラーリングをする
-git config --global color.ui auto
+> git config --global color.ui auto
 
 ## CPU 時間を消費している Top 5
 > ps -eo user, pcpu, pid, cmd | sort -r -k2 | head -6
+
  * ps
    * -o オプションで表示対象の列を指定
  * sort
