@@ -44,3 +44,7 @@ python -m SimpleHTTPServer
 
 # quickly backup or copy a file with bash.
 cp filename{,.bak}
+
+# Lists all listening ports together with the PID of the associated process
+netstat -tlnp
+
