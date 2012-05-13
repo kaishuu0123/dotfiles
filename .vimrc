@@ -40,10 +40,10 @@ set nocompatible
 filetype off 
 
 " init Vundle
-set rtp+=~/.vim/bundle/vundle/
+set rtp+=~/.vim/vundle/
 call vundle#rc()
-Bundle 'gmarik/vundle'
 
+Bundle 'gmarik/vundle'
 Bundle 'Markdown'
 Bundle 'thinca/vim-quickrun'
 Bundle 'tpope/vim-markdown'
