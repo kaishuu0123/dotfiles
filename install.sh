@@ -1,8 +1,11 @@
 #!/bin/bash
 
-DOT_FILES=( .zshrc .vimrc .tmux.conf )
+DOT_FILES=".screenrc .zshrc .vimrc .tmux.conf"
 
-for file in ${DOT_FILES[@]}
+# For vim bundle
+git clone http://github.com/gmarik/vundle.git ~/.vim/vundle.git
+
+for file in ${DOT_FILES}
 do
 	ln -s ${HOME}/dotfiles/${file} ${HOME}/${file}
 done
