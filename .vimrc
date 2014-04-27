@@ -7,47 +7,42 @@ call vundle#rc()
 
 Bundle 'gmarik/vundle'
 
-Bundle 'Markdown'
 Bundle 'thinca/vim-quickrun'
-Bundle 'tpope/vim-markdown'
 Bundle 'Zenburn'
-Bundle 'project.tar.gz'
 Bundle 'scrooloose/nerdtree'
-Bundle 'Align'
-Bundle 'nerdtree'
-Bundle 'sudo.vim'
-Bundle 'gtags.vim'
-Bundle 'JavaScript-syntax'
-Bundle 'pangloss/vim-javascript'
-Bundle 'closetag.vim'
-Bundle 'surround.vim'
-""Bundle 'Shougo/neocomplcache'
-Bundle 'ZenCoding.vim'
-Bundle 'AutoClose'
-Bundle 'othree/html5.vim'
 Bundle 'xmledit'
+Bundle 'Align'
+Bundle 'sudo.vim'
+Bundle 'surround.vim'
+Bundle 'Shougo/neocomplcache'
+Bundle 'mattn/emmet-vim'
+Bundle 'AutoClose'
 " syntax checking plugins exist for eruby, haml, html, javascript, php, python, ruby and sass.
 Bundle 'scrooloose/syntastic'
-Bundle 'jistr/vim-nerdtree-tabs'
 Bundle 'fholgado/minibufexpl.vim'
+Bundle 'jistr/vim-nerdtree-tabs'
 Bundle 'superbrothers/vim-bclose'
+Bundle 'pangloss/vim-javascript'
+Bundle 'mattn/webapi-vim'
+Bundle 'hail2u/vim-css3-syntax'
+Bundle 'taichouchou2/html5.vim'
+Bundle 'taichouchou2/vim-javascript'
+Bundle 'kchmck/vim-coffee-script'
+Bundle 'plasticboy/vim-markdown'
+Bundle 'jtratner/vim-flavored-markdown'
+" ソースコード上のメソッド宣言、変数宣言の一覧を表示
+Bundle "taglist.vim"
+" ステータスバーをちょっとリッチに
+Bundle 'itchyny/lightline.vim'
+Bundle 'Markdown'
+Bundle 'sousu/VimRepress'
+Bundle 'suan/vim-instant-markdown'
 
-filetype plugin indent on
-let g:quickrun_config = {}
-let g:quickrun_config['markdown'] = {
-			\ 'command': 'bluecloth',
-			\ 'exec': '%c -f %s'
-			\ }
-
+syntax on
 filetype on
 filetype plugin on
-set nocompatible
-set notitle
-
-noremap  
-noremap!  
-noremap <BS> 
-noremap! <BS> 
+filetype indent on
+colorscheme desert
 
 "set termencoding=euc-jp
 set fileformats=unix
@@ -76,19 +71,9 @@ set hlsearch
 let g:changelog_timeformat = "%Y-%m-%d"
 let g:changelog_username = "Kouki Ooyatsu"
 
-au QuickfixCmdPost make,grep,grepadd,vimgrep copen
-syntax on
-colorscheme desert
-
-map <C-g> :Gtags 
-map <C-h> :Gtags -f %<CR>
-map <C-j> :GtagsCursor<CR>
-map <C-n> :cn<CR>
-map <C-p> :cp<CR>
-
 set laststatus=2
 let ff_table = {'dos' : 'CR+LF', 'unix' : 'LF', 'mac' : 'CR' }
-let &statusline='%<%f %h%m%r%w[%{(&fenc!=""?&fenc:&enc)}:%{ff_table[&ff]}] %-14.(%l,%c%V%) %P'
+""let &statusline='%<%f %h%m%r%w[%{(&fenc!=""?&fenc:&enc)}:%{ff_table[&ff]}] %-14.(%l,%c%V%) %P'
 
 fun! ShowFuncName()
   let lnum = line(".")
@@ -100,21 +85,16 @@ fun! ShowFuncName()
 endfun
 map f :call ShowFuncName()
 
-
-inoremap <C-]> <C-R>=GetCloseTag()<CR><ESC>F<i
-map <C-]> a<C-]><ESC>
-
-"let g:neocomplcache_enable_at_startup = 1
-"au! BufRead,BufNewFile *.tt     setfiletype tt.html
-"let g:neocomplcache_enable_at_startup = 1 " 起動時に有効化
-"inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
-"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-"
-
-
+" for taglist.vim
+let Tlist_Show_One_File=1
+let Tlist_Use_Right_Window=1
+let Tlist_Exit_OnlyWindow=1
+map <C-T> :Tlist <CR>
+nnoremap tt  <C-]>
+nnoremap tn  :<C-u>tag<CR>
+nnoremap tp  :<C-u>pop<CR>
 
 " ウィンドウを閉じずにバッファを閉じる
-
 function! s:BufcloseCloseIt(bang)
   let l:currentBufNum = bufnr("%")
   let l:alternateBufNum = bufnr("#")
@@ -164,7 +144,56 @@ map <silent> [Buf]n :bn<CR>
 map <silent> [Buf]p :bp<CR>
 " tp 前のタブ
 
+"" Source Explorer
+"自動でプレビューを表示する。TODO:うざくなってきたら手動にする。またはソースを追う時だけ自動に変更する。
+let g:SrcExpl_RefreshTime   = 1
+"プレビューウインドウの高さ
+let g:SrcExpl_WinHeight     = 9
+"tagsは自動で作成する
+let g:SrcExpl_UpdateTags    = 1
+"マッピング
+let g:SrcExpl_RefreshMapKey = "<Space>"
+let g:SrcExpl_GoBackMapKey  = "<C-b>"
+nmap <F8> :SrcExplToggle<CR>
+
+"NERD_tree.vim
+""---------------------
+nnoremap <f2> :NERDTreeToggle<CR>
+""最後に残ったウィンドウがNERDTREEのみのときはvimを閉じる
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+let g:NERDTreeDirArrows=0
+let g:NERDTreeMouseMode=0
+
 let file_name = expand("%")
 if has('vim_starting') &&  file_name == ""
-    autocmd VimEnter * NERDTree ./
+  autocmd VimEnter * NERDTree ./
 endif
+
+" alpaca_tags
+" ~/.ctagsにctagsの設定ファイルを設置します。現在無い人は、このディレクトリ内の.ctagsをコピーしてください。
+" 適切なlanguageは`ctags --list-maps=all`で見つけてください。人によりますので。
+let g:alpaca_tags_config = {
+      \ '_' : '-R --sort=yes --languages=-js,html,css',
+      \ 'ruby': '--languages=+Ruby',
+      \ }
+
+augroup AlpacaTags
+  autocmd!
+  if exists(':Tags')
+    autocmd BufWritePost * TagsUpdate ruby
+    autocmd BufWritePost Gemfile TagsBundle
+    autocmd BufEnter * TagsSet
+  endif
+augroup END
+
+nnoremap <expr>tt  ':Unite tags -horizontal -buffer-name=tags -input='.expand("<cword>").'<CR>'
+
+
+"let g:instant_markdown_slow = 1
+"let g:instant_markdown_autostart = 1
+
+augroup markdown
+  au!
+  au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
+augroup END
+
