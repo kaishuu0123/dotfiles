@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DOT_FILES=".screenrc .zshrc .vimrc .tmux.conf"
+DOT_FILES=".screenrc .zshrc .vimrc .tmux.conf .bash_profile"
 
 # For vim bundle
 git clone http://github.com/gmarik/vundle.git ~/.vim/vundle.git
