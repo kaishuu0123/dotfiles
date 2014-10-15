@@ -68,3 +68,18 @@
 
 ## save command output to image
 > ifconfig | convert label:@- ip.png
+
+
+# Docker
+## nsenter
+> sudo nsenter --mount --uts --ipc --net --pid --target <Docker Pid>
+
+ * Pid の調べ方(効率がいい方法ありそう)
+   * docker ps で得た container ID を docker inspect して grep Pid(効率悪)
+ 
+
+## 削除系
+> docker ps -a | awk '{print $1}' | xargs --no-run-if-empty docker rm
+
+> docker rm `docker ps -a | grep Exited | awk '{print $1 }'`
+> docker rmi `docker images -aq`
