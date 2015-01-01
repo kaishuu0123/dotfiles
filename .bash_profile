@@ -17,5 +17,7 @@ esac
 
 export PS1="[\[\033[35m\]\t\[\033[m\]-\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]]\$ "
 
-# Load RVM, if you are using it
-[[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
+# include file
+source ~/.bash_rvm_profile
+source ~/.bash_nvm_profile
+source ~/.bash_grails_profile

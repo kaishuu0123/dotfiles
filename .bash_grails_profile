@@ -1,0 +1,3 @@
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/
+export export GRAILS_OPTS="-server -noverify -XX:PermSize=256m -XX:MaxPermSize=256m -Xmx600M -Xms600m -XX:+UseParallelGC -Djava.net.preferIPv4Stack=true -Dsun.reflect.inflationThreshold=100000"
+export PATH="$PATH:$JAVA_HOME/bin:$GRAILS_HOME/bin"

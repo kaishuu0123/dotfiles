@@ -1,42 +1,39 @@
 set nocompatible
 filetype off 
 
-" init Vundle
-set rtp+=~/.vim/vundle.git/
-call vundle#rc()
-
-Bundle 'gmarik/vundle'
-
-Bundle 'thinca/vim-quickrun'
-Bundle 'Zenburn'
-Bundle 'scrooloose/nerdtree'
-Bundle 'xmledit'
-Bundle 'Align'
-Bundle 'sudo.vim'
-Bundle 'surround.vim'
-Bundle 'Shougo/neocomplcache'
-Bundle 'mattn/emmet-vim'
-Bundle 'AutoClose'
-" syntax checking plugins exist for eruby, haml, html, javascript, php, python, ruby and sass.
-Bundle 'scrooloose/syntastic'
-Bundle 'fholgado/minibufexpl.vim'
-Bundle 'jistr/vim-nerdtree-tabs'
-Bundle 'superbrothers/vim-bclose'
-Bundle 'pangloss/vim-javascript'
-Bundle 'mattn/webapi-vim'
-Bundle 'hail2u/vim-css3-syntax'
-Bundle 'taichouchou2/html5.vim'
-Bundle 'taichouchou2/vim-javascript'
-Bundle 'kchmck/vim-coffee-script'
-Bundle 'plasticboy/vim-markdown'
-Bundle 'jtratner/vim-flavored-markdown'
-" ソースコード上のメソッド宣言、変数宣言の一覧を表示
-Bundle "taglist.vim"
-" ステータスバーをちょっとリッチに
-Bundle 'itchyny/lightline.vim'
-Bundle 'Markdown'
-Bundle 'sousu/VimRepress'
-Bundle 'suan/vim-instant-markdown'
+if isdirectory("~/.vim/vundle.git")
+  " init Vundle
+  set rtp+=~/.vim/vundle.git/
+  call vundle#rc()
+  
+  Bundle 'gmarik/vundle'
+  
+  Bundle 'thinca/vim-quickrun'
+  Bundle 'Zenburn'
+  Bundle 'scrooloose/nerdtree'
+  Bundle 'xmledit'
+  Bundle 'Align'
+  Bundle 'sudo.vim'
+  Bundle 'surround.vim'
+  Bundle 'Shougo/neocomplcache'
+  Bundle 'mattn/emmet-vim'
+  Bundle 'AutoClose'
+  " syntax checking plugins exist for eruby, haml, html, javascript, php, python, ruby and sass.
+  Bundle 'scrooloose/syntastic'
+  Bundle 'fholgado/minibufexpl.vim'
+  Bundle 'jistr/vim-nerdtree-tabs'
+  Bundle 'superbrothers/vim-bclose'
+  Bundle 'mattn/webapi-vim'
+  Bundle 'hail2u/vim-css3-syntax'
+  Bundle 'taichouchou2/html5.vim'
+  Bundle 'taichouchou2/vim-javascript'
+  Bundle 'kchmck/vim-coffee-script'
+  Bundle 'plasticboy/vim-markdown'
+  Bundle 'jtratner/vim-flavored-markdown'
+  " ステータスバーをちょっとリッチに
+  Bundle 'itchyny/lightline.vim'
+  Bundle 'Markdown'
+endif
 
 syntax on
 filetype on
@@ -84,15 +81,6 @@ fun! ShowFuncName()
   call search("\\%" . lnum . "l" . "\\%" . col . "c")
 endfun
 map f :call ShowFuncName()
-
-" for taglist.vim
-let Tlist_Show_One_File=1
-let Tlist_Use_Right_Window=1
-let Tlist_Exit_OnlyWindow=1
-map <C-T> :Tlist <CR>
-nnoremap tt  <C-]>
-nnoremap tn  :<C-u>tag<CR>
-nnoremap tp  :<C-u>pop<CR>
 
 " ウィンドウを閉じずにバッファを閉じる
 function! s:BufcloseCloseIt(bang)
@@ -149,8 +137,6 @@ map <silent> [Buf]p :bp<CR>
 let g:SrcExpl_RefreshTime   = 1
 "プレビューウインドウの高さ
 let g:SrcExpl_WinHeight     = 9
-"tagsは自動で作成する
-let g:SrcExpl_UpdateTags    = 1
 "マッピング
 let g:SrcExpl_RefreshMapKey = "<Space>"
 let g:SrcExpl_GoBackMapKey  = "<C-b>"
@@ -177,20 +163,7 @@ let g:alpaca_tags_config = {
       \ 'ruby': '--languages=+Ruby',
       \ }
 
-augroup AlpacaTags
-  autocmd!
-  if exists(':Tags')
-    autocmd BufWritePost * TagsUpdate ruby
-    autocmd BufWritePost Gemfile TagsBundle
-    autocmd BufEnter * TagsSet
-  endif
-augroup END
-
 nnoremap <expr>tt  ':Unite tags -horizontal -buffer-name=tags -input='.expand("<cword>").'<CR>'
-
-
-"let g:instant_markdown_slow = 1
-"let g:instant_markdown_autostart = 1
 
 augroup markdown
   au!
