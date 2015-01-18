@@ -1,0 +1,2 @@
+# Load NVM, if you are using it
+[[ -s $HOME/.nvm/nvm.sh ]] && source $HOME/.nvm/nvm.sh

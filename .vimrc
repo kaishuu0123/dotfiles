@@ -1,7 +1,7 @@
 set nocompatible
 filetype off 
 
-if isdirectory("~/.vim/vundle.git")
+if isdirectory($HOME."/.vim/vundle.git")
   " init Vundle
   set rtp+=~/.vim/vundle.git/
   call vundle#rc()
@@ -33,6 +33,24 @@ if isdirectory("~/.vim/vundle.git")
   " ステータスバーをちょっとリッチに
   Bundle 'itchyny/lightline.vim'
   Bundle 'Markdown'
+
+  "NERD_tree.vim
+  ""---------------------
+  nnoremap <f2> :NERDTreeToggle<CR>
+  ""最後に残ったウィンドウがNERDTREEのみのときはvimを閉じる
+  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+  let g:NERDTreeDirArrows=0
+  let g:NERDTreeMouseMode=0
+  
+  let file_name = expand("%")
+  if has('vim_starting') &&  file_name == ""
+    autocmd VimEnter * NERDTree ./
+  endif
+
+  augroup markdown
+    au!
+    au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
+  augroup END
 endif
 
 syntax on
@@ -70,17 +88,6 @@ let g:changelog_username = "Kouki Ooyatsu"
 
 set laststatus=2
 let ff_table = {'dos' : 'CR+LF', 'unix' : 'LF', 'mac' : 'CR' }
-""let &statusline='%<%f %h%m%r%w[%{(&fenc!=""?&fenc:&enc)}:%{ff_table[&ff]}] %-14.(%l,%c%V%) %P'
-
-fun! ShowFuncName()
-  let lnum = line(".")
-  let col = col(".")
-  echohl ModeMsg
-  echo getline(search("^[^ \t#/]\\{2}.*[^:]\s*$", 'bW'))
-  echohl None
-  call search("\\%" . lnum . "l" . "\\%" . col . "c")
-endfun
-map f :call ShowFuncName()
 
 " ウィンドウを閉じずにバッファを閉じる
 function! s:BufcloseCloseIt(bang)
@@ -109,6 +116,7 @@ function! s:BufcloseCloseIt(bang)
   endif
 endfunction
 
+" バッファ移動を楽にする
 noremap <C-H> <C-W>h
 noremap <C-J> <C-W>j
 noremap <C-K> <C-W>k
@@ -131,42 +139,3 @@ map <silent> [Buf]n :bn<CR>
 " tn 次のタブ
 map <silent> [Buf]p :bp<CR>
 " tp 前のタブ
-
-"" Source Explorer
-"自動でプレビューを表示する。TODO:うざくなってきたら手動にする。またはソースを追う時だけ自動に変更する。
-let g:SrcExpl_RefreshTime   = 1
-"プレビューウインドウの高さ
-let g:SrcExpl_WinHeight     = 9
-"マッピング
-let g:SrcExpl_RefreshMapKey = "<Space>"
-let g:SrcExpl_GoBackMapKey  = "<C-b>"
-nmap <F8> :SrcExplToggle<CR>
-
-"NERD_tree.vim
-""---------------------
-nnoremap <f2> :NERDTreeToggle<CR>
-""最後に残ったウィンドウがNERDTREEのみのときはvimを閉じる
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-let g:NERDTreeDirArrows=0
-let g:NERDTreeMouseMode=0
-
-let file_name = expand("%")
-if has('vim_starting') &&  file_name == ""
-  autocmd VimEnter * NERDTree ./
-endif
-
-" alpaca_tags
-" ~/.ctagsにctagsの設定ファイルを設置します。現在無い人は、このディレクトリ内の.ctagsをコピーしてください。
-" 適切なlanguageは`ctags --list-maps=all`で見つけてください。人によりますので。
-let g:alpaca_tags_config = {
-      \ '_' : '-R --sort=yes --languages=-js,html,css',
-      \ 'ruby': '--languages=+Ruby',
-      \ }
-
-nnoremap <expr>tt  ':Unite tags -horizontal -buffer-name=tags -input='.expand("<cword>").'<CR>'
-
-augroup markdown
-  au!
-  au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
-augroup END
-
