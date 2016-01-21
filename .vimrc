@@ -26,7 +26,6 @@ if isdirectory($HOME."/.vim/vundle.git")
   Bundle 'mattn/webapi-vim'
   Bundle 'hail2u/vim-css3-syntax'
   Bundle 'taichouchou2/html5.vim'
-  Bundle 'taichouchou2/vim-javascript'
   Bundle 'kchmck/vim-coffee-script'
   Bundle 'plasticboy/vim-markdown'
   Bundle 'jtratner/vim-flavored-markdown'
