@@ -22,6 +22,32 @@ esac
 export PS1="[\[\033[35m\]\t\[\033[m\]-\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]]\$ "
 
 # include file
-source ~/.bash_rvm_profile
+#source ~/.bash_rvm_profile
 #source ~/.bash_nvm_profile
 #source ~/.bash_grails_profile
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+
+if [[ -z "$TMUX" && -z "$STY" ]] && type tmux >/dev/null 2>&1; then
+  echo "hogehoge"
+  function confirm {
+    MSG=$1
+    while :
+    do
+      echo -n "${MSG} [Y/N]: "
+      read ans
+      case $ans in
+        [yY]) return 0 ;;
+        [nN]) return 1 ;;
+      esac
+    done
+  }
+  echo "hogehoge"
+  option=""
+  if tmux has-session -t ope; then
+    option="attach -t ope"
+  else
+    option="new -s ope"
+  fi
+  tmux $option && confirm "exit?" && exit
+fi
