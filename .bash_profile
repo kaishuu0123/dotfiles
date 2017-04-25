@@ -19,14 +19,28 @@ case "$(uname)" in
     ;; # OSがMac以外
 esac
 
-export PS1="[\[\033[35m\]\t\[\033[m\]-\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]]\$ "
+function check-shell-command {
+  local EXIT="$?"
+
+  if [ $EXIT -eq 0 ]; then
+    # face="\e[32m(」・ω・)」"
+    face="\e[32m(｀・ω・´)"
+  else
+    # face="\e[32m(／・ω・)／"
+    face="\e[31m(´・ω・\`)"
+  fi
+
+  echo -e "${face}\e[m"
+}
+
+export PS1='[$(check-shell-command):\[\033[35m\]\t\[\033[m\]-\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]]\$ '
 
 # include file
 #source ~/.bash_rvm_profile
 #source ~/.bash_nvm_profile
 #source ~/.bash_grails_profile
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
+# export PATH="$HOME/.rbenv/bin:$PATH"
+# eval "$(rbenv init -)"
 
 if [[ -z "$TMUX" && -z "$STY" ]] && type tmux >/dev/null 2>&1; then
   echo "hogehoge"
