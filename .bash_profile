@@ -28,6 +28,7 @@ export PS1="[\[\033[35m\]\t\[\033[m\]-\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 
+SESSION_NAME=ope
 if [[ -z "$TMUX" && -z "$STY" ]] && type tmux >/dev/null 2>&1; then
   echo "hogehoge"
   function confirm {
@@ -44,10 +45,10 @@ if [[ -z "$TMUX" && -z "$STY" ]] && type tmux >/dev/null 2>&1; then
   }
   echo "hogehoge"
   option=""
-  if tmux has-session -t ope; then
-    option="attach -t ope"
+  if tmux has-session -t ${SESSION_NAME}; then
+    option="attach -t ${SESSION_NAME}"
   else
-    option="new -s ope"
+    option="new -s ${SESSION_NAME}"
   fi
   tmux $option && confirm "exit?" && exit
 fi
