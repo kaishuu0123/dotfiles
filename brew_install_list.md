@@ -1,0 +1,12 @@
+* bash-completion
+* gmp
+* libyaml
+* postgresql
+* v8@3.15
+* coreutils
+* htop
+* mtr
+* readline
+* git
+* openssl
+* v8-315

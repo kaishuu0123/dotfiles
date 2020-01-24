@@ -1,55 +1,60 @@
 set nocompatible
 filetype off 
 
-if isdirectory($HOME."/.vim/vundle.git")
+if isdirectory($HOME."/.vim/bundle/neobundle.vim")
   " init Vundle
-  set rtp+=~/.vim/vundle.git/
-  call vundle#rc()
+  set runtimepath+=~/.vim/bundle/neobundle.vim/
+  call neobundle#begin(expand('~/.vim/bundle/'))
   
-  Bundle 'gmarik/vundle'
+  NeoBundleFetch 'Shougo/neobundle.vim'
   
-  Bundle 'thinca/vim-quickrun'
-  Bundle 'Zenburn'
-  Bundle 'scrooloose/nerdtree'
-  Bundle 'xmledit'
-  Bundle 'Align'
-  Bundle 'sudo.vim'
-  Bundle 'surround.vim'
-  Bundle 'Shougo/neocomplcache'
-  Bundle 'mattn/emmet-vim'
-  Bundle 'AutoClose'
+  NeoBundle 'thinca/vim-quickrun'
+  NeoBundle 'Zenburn'
+  NeoBundle 'scrooloose/nerdtree'
+  NeoBundle 'xmledit'
+  NeoBundle 'Align'
+  NeoBundle 'sudo.vim'
+  NeoBundle 'surround.vim'
+  NeoBundle 'Shougo/neocomplcache'
+  NeoBundle 'mattn/emmet-vim'
+  NeoBundle 'AutoClose'
   " syntax checking plugins exist for eruby, haml, html, javascript, php, python, ruby and sass.
-  Bundle 'scrooloose/syntastic'
-  Bundle 'fholgado/minibufexpl.vim'
-  Bundle 'jistr/vim-nerdtree-tabs'
-  Bundle 'superbrothers/vim-bclose'
-  Bundle 'mattn/webapi-vim'
-  Bundle 'hail2u/vim-css3-syntax'
-  Bundle 'taichouchou2/html5.vim'
-  Bundle 'kchmck/vim-coffee-script'
-  Bundle 'plasticboy/vim-markdown'
-  Bundle 'jtratner/vim-flavored-markdown'
+  NeoBundle 'scrooloose/syntastic'
+  NeoBundle 'fholgado/minibufexpl.vim'
+  NeoBundle 'jistr/vim-nerdtree-tabs'
+  NeoBundle 'superbrothers/vim-bclose'
+  NeoBundle 'hail2u/vim-css3-syntax'
+  NeoBundle 'plasticboy/vim-markdown'
+  NeoBundle 'jtratner/vim-flavored-markdown'
   " ステータスバーをちょっとリッチに
-  Bundle 'itchyny/lightline.vim'
-  Bundle 'Markdown'
+  NeoBundle 'itchyny/lightline.vim'
+  NeoBundle 'Markdown'
+  NeoBundle 'posva/vim-vue'
 
   "NERD_tree.vim
   ""---------------------
-  nnoremap <f2> :NERDTreeToggle<CR>
+  ""nnoremap <f2> :NERDTreeToggle<CR>
   ""最後に残ったウィンドウがNERDTREEのみのときはvimを閉じる
-  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-  let g:NERDTreeDirArrows=0
-  let g:NERDTreeMouseMode=0
-  
-  let file_name = expand("%")
-  if has('vim_starting') &&  file_name == ""
-    autocmd VimEnter * NERDTree ./
-  endif
+  ""autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+  ""let g:NERDTreeDirArrows=0
+  ""let g:NERDTreeMouseMode=0
+  ""
+  ""let file_name = expand("%")
+  "if has('vim_starting') &&  file_name == ""
+  "  autocmd VimEnter * NERDTree ./
+  "endif
+ 
+  " ファイル名が指定されてVIMが起動した場合はNERDTreeを表示しない
+  autocmd StdinReadPre * let s:std_in=1
+  autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
 
   augroup markdown
     au!
     au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
   augroup END
+
+  call neobundle#end()
 endif
 
 syntax on

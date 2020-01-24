@@ -19,32 +19,20 @@ case "$(uname)" in
     ;; # OSがMac以外
 esac
 
-function check-shell-command {
-  local EXIT="$?"
-
-  if [ $EXIT -eq 0 ]; then
-    # face="\e[32m(」・ω・)」"
-    face="\e[32m(｀・ω・´)"
-  else
-    # face="\e[32m(／・ω・)／"
-    face="\e[31m(´・ω・\`)"
-  fi
-
-  echo -e "${face}\e[m"
-}
-
-export PS1='[$(check-shell-command):\[\033[35m\]\t\[\033[m\]-\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]]\$ '
+export PS1='[\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]]\$ '
 
 # include file
 #source ~/.bash_rvm_profile
 #source ~/.bash_nvm_profile
 #source ~/.bash_grails_profile
+#source ~/.bash_goenv_profile
+#source ~/.gvm/scripts/gvm
 # export PATH="$HOME/.rbenv/bin:$PATH"
 # eval "$(rbenv init -)"
+#source ~/Downloads/emsdk-portable/emsdk_env.sh
 
 SESSION_NAME=ope
 if [[ -z "$TMUX" && -z "$STY" ]] && type tmux >/dev/null 2>&1; then
-  echo "hogehoge"
   function confirm {
     MSG=$1
     while :
@@ -57,7 +45,6 @@ if [[ -z "$TMUX" && -z "$STY" ]] && type tmux >/dev/null 2>&1; then
       esac
     done
   }
-  echo "hogehoge"
   option=""
   if tmux has-session -t ${SESSION_NAME}; then
     option="attach -t ${SESSION_NAME}"
@@ -65,4 +52,32 @@ if [[ -z "$TMUX" && -z "$STY" ]] && type tmux >/dev/null 2>&1; then
     option="new -s ${SESSION_NAME}"
   fi
   tmux $option && confirm "exit?" && exit
+fi
+
+# include file
+# source ~/.bash_rvm_profile
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+
+
+source ~/.bash_nvm_profile
+#source ~/.bash_grails_profile
+
+if [ -f `brew --prefix`/etc/bash_completion ]; then
+  . `brew --prefix`/etc/bash_completion
+fi
+export PATH="$HOME/Library/Android/sdk/platform-tools:$PATH"
+export PATH="$HOME/.yarn/bin:$PATH"
+export PATH="/usr/local/opt/openssl/bin:$PATH"
+
+# Setting PATH for Python 3.6
+# The original version is saved in .bash_profile.pysave
+PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:${PATH}"
+export PATH
+export PATH="$HOME/tmp/depot_tools/:$PATH"
+
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
 fi
